@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "datastores_azureml_globaldatasets_nameNodeAddress": {
+            "value": null
+        },
+        "datastores_workspaceartifactstore_nameNodeAddress": {
+            "value": null
+        },
+        "datastores_workspaceblobstore_nameNodeAddress": {
+            "value": null
+        },
+        "datastores_workspacefilestore_nameNodeAddress": {
+            "value": null
+        },
+        "datastores_workspaceworkingdirectory_nameNodeAddress": {
+            "value": null
+        },
+        "workspaces_puc_name": {
+            "value": null
+        },
+        "storageAccounts_puc0676770575_externalid": {
+            "value": null
+        },
+        "vaults_puc3947401258_externalid": {
+            "value": null
+        },
+        "components_puc2366489555_externalid": {
+            "value": null
+        }
+    }
+}

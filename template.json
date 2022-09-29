@@ -1,0 +1,148 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "datastores_azureml_globaldatasets_nameNodeAddress": {
+            "type": "SecureString"
+        },
+        "datastores_workspaceartifactstore_nameNodeAddress": {
+            "type": "SecureString"
+        },
+        "datastores_workspaceblobstore_nameNodeAddress": {
+            "type": "SecureString"
+        },
+        "datastores_workspacefilestore_nameNodeAddress": {
+            "type": "SecureString"
+        },
+        "datastores_workspaceworkingdirectory_nameNodeAddress": {
+            "type": "SecureString"
+        },
+        "workspaces_puc_name": {
+            "defaultValue": "puc",
+            "type": "String"
+        },
+        "storageAccounts_puc0676770575_externalid": {
+            "defaultValue": "/subscriptions/6219cb04-c063-478c-84d2-23def3d514bb/resourceGroups/Treinamento/providers/Microsoft.Storage/storageAccounts/puc0676770575",
+            "type": "String"
+        },
+        "vaults_puc3947401258_externalid": {
+            "defaultValue": "/subscriptions/6219cb04-c063-478c-84d2-23def3d514bb/resourceGroups/Treinamento/providers/Microsoft.Keyvault/vaults/puc3947401258",
+            "type": "String"
+        },
+        "components_puc2366489555_externalid": {
+            "defaultValue": "/subscriptions/6219cb04-c063-478c-84d2-23def3d514bb/resourceGroups/Treinamento/providers/Microsoft.insights/components/puc2366489555",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces",
+            "apiVersion": "2022-06-01-preview",
+            "name": "[parameters('workspaces_puc_name')]",
+            "location": "eastus",
+            "sku": {
+                "name": "Basic",
+                "tier": "Basic"
+            },
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "friendlyName": "[parameters('workspaces_puc_name')]",
+                "storageAccount": "[parameters('storageAccounts_puc0676770575_externalid')]",
+                "keyVault": "[parameters('vaults_puc3947401258_externalid')]",
+                "applicationInsights": "[parameters('components_puc2366489555_externalid')]",
+                "hbiWorkspace": false,
+                "v1LegacyMode": false,
+                "publicNetworkAccess": "Enabled",
+                "discoveryUrl": "https://eastus.api.azureml.ms/discovery"
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+            "apiVersion": "2022-06-01-preview",
+            "name": "[concat(parameters('workspaces_puc_name'), '/azureml_globaldatasets')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaces_puc_name'))]"
+            ],
+            "properties": {
+                "credentials": {
+                    "credentialsType": "Sas",
+                    "secrets": {}
+                },
+                "datastoreType": "AzureBlob",
+                "protocol": "https",
+                "nameNodeAddress": "[parameters('datastores_azureml_globaldatasets_nameNodeAddress')]"
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+            "apiVersion": "2022-06-01-preview",
+            "name": "[concat(parameters('workspaces_puc_name'), '/workspaceartifactstore')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaces_puc_name'))]"
+            ],
+            "properties": {
+                "credentials": {
+                    "credentialsType": "AccountKey",
+                    "secrets": {}
+                },
+                "datastoreType": "AzureBlob",
+                "protocol": "https",
+                "nameNodeAddress": "[parameters('datastores_workspaceartifactstore_nameNodeAddress')]"
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+            "apiVersion": "2022-06-01-preview",
+            "name": "[concat(parameters('workspaces_puc_name'), '/workspaceblobstore')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaces_puc_name'))]"
+            ],
+            "properties": {
+                "credentials": {
+                    "credentialsType": "AccountKey",
+                    "secrets": {}
+                },
+                "datastoreType": "AzureBlob",
+                "protocol": "https",
+                "nameNodeAddress": "[parameters('datastores_workspaceblobstore_nameNodeAddress')]"
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+            "apiVersion": "2022-06-01-preview",
+            "name": "[concat(parameters('workspaces_puc_name'), '/workspacefilestore')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaces_puc_name'))]"
+            ],
+            "properties": {
+                "credentials": {
+                    "credentialsType": "AccountKey",
+                    "secrets": {}
+                },
+                "datastoreType": "AzureFile",
+                "protocol": "https",
+                "nameNodeAddress": "[parameters('datastores_workspacefilestore_nameNodeAddress')]"
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+            "apiVersion": "2022-06-01-preview",
+            "name": "[concat(parameters('workspaces_puc_name'), '/workspaceworkingdirectory')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaces_puc_name'))]"
+            ],
+            "properties": {
+                "credentials": {
+                    "credentialsType": "AccountKey",
+                    "secrets": {}
+                },
+                "datastoreType": "AzureFile",
+                "protocol": "https",
+                "nameNodeAddress": "[parameters('datastores_workspaceworkingdirectory_nameNodeAddress')]"
+            }
+        }
+    ]
+}
